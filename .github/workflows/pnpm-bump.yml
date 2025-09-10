@@ -1,0 +1,65 @@
+name: Bump dependencies
+on:
+  workflow_call:
+    inputs:
+      bump-branch:
+        type: string
+        default: bump
+      commit-message:
+        type: string
+        default: "Bump dependencies"
+      title:
+        type: string
+        default: "Bump dependencies"
+      body:
+        type: string
+        default: |
+          Bumping dependencies via GitHub Actions.
+
+          If this does not build, then get the `bump` branch locally and fix the issues and then push back to GitHub.
+
+          You can then merge the PR when it builds successfully.
+    secrets:
+      GH_TOKEN:
+        required: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deps-bump:
+    name: Bump dependencies
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Update pnpm
+        run: pnpm self-update
+
+      - name: Bump dependencies
+        run: pnpm update -rL
+
+      - name: Create Pull Request
+        id: pr
+        uses: peter-evans/create-pull-request@v7
+        env:
+          CI: true
+        with:
+          branch: ${{ inputs.bump-branch }}
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: ${{ inputs.commit-message }}
+          title: ${{ inputs.title }}
+          body: ${{ inputs.body }}
