@@ -1,10 +1,14 @@
 # Automation
 
-Central repository for GitHub Actions
+Central repository for GitHub Actions.
+
+> [!IMPORTANT]
+> All of these workflows require PNPM _and_ that PNPM manages your Node versions.
+> See [the documentation](https://pnpm.io/cli/env) for more information.
 
 ## Available Workflows
 
-### PNPM Bump Dependencies
+### Bump Dependencies
 
 This workflow is used to bump the dependencies to the latest version in a PNPM project.
 
@@ -19,7 +23,7 @@ on:
 
 jobs:
   deps-bump:
-    uses: markgaze/automation/.github/workflows/pnpm-bump.yml
+    uses: markgaze/automation/.github/workflows/bump.yml
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
