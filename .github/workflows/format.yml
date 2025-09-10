@@ -53,7 +53,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          pnpm install
+          pnpm install --frozen-lockfile
 
       - name: Format code
         run: pnpm run ${{ inputs.command }}
