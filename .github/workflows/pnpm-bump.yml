@@ -31,9 +31,6 @@ jobs:
   deps-bump:
     name: Bump dependencies
     runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout
