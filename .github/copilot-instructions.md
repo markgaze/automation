@@ -5,10 +5,9 @@ Always reference these instructions first and fallback to search or bash command
 
 ## Working Effectively
 - Validate workflows:
-  - Install actionlint: `wget https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz && tar -xzf actionlint_1.7.7_linux_amd64.tar.gz && chmod +x actionlint`
-  - Run workflow validation: `./actionlint -color`
+  - Use Docker version of actionlint: `docker run --rm -v $(pwd):/repo --workdir /repo rhysd/actionlint:1.7.7 -color`
   - Expected time: Under 1 minute. Set timeout to 2 minutes minimum.
-- Clean up validation files: `rm -f actionlint actionlint_1.7.7_linux_amd64.tar.gz LICENSE.txt && rm -rf docs man` after validation
+  - No cleanup needed when using Docker version
 
 ## Critical Understanding
 - **DO NOT attempt to build this repository** - it contains no source code, package.json, or build configuration
@@ -24,7 +23,7 @@ Always reference these instructions first and fallback to search or bash command
 - `README.md` - Comprehensive documentation with usage examples
 
 ## Validation
-- **ALWAYS run actionlint validation** after making workflow changes: `./actionlint -color`
+- **ALWAYS run actionlint validation** after making workflow changes: `docker run --rm -v $(pwd):/repo --workdir /repo rhysd/actionlint:1.7.7 -color`
 - **NEVER CANCEL actionlint** - it completes in under 1 minute
 - Test workflow syntax changes by running actionlint before committing
 - **No manual testing scenarios exist** - this repository contains no runnable applications
@@ -49,9 +48,8 @@ Always reference these instructions first and fallback to search or bash command
 
 ## Common Tasks
 ### Validating Workflow Changes
-1. Install actionlint: `wget https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz && tar -xzf actionlint_1.7.7_linux_amd64.tar.gz && chmod +x actionlint`
-2. Run validation: `./actionlint -color` (under 1 minute, set 2+ minute timeout)
-3. Clean up: `rm -f actionlint actionlint_1.7.7_linux_amd64.tar.gz LICENSE.txt && rm -rf docs man`
+1. Run validation: `docker run --rm -v $(pwd):/repo --workdir /repo rhysd/actionlint:1.7.7 -color` (under 1 minute, set 2+ minute timeout)
+2. No cleanup needed when using Docker version
 
 ### Making Workflow Changes
 1. Edit workflow files in `.github/workflows/`
