@@ -89,8 +89,8 @@ on:
 jobs:
   format:
     uses: markgaze/automation/.github/workflows/format.yml@main
+    with:
+      turbo-cache: true
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-with:
-  turbo-cache: true
 ```
