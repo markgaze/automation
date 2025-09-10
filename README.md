@@ -23,7 +23,7 @@ on:
 
 jobs:
   deps-bump:
-    uses: markgaze/automation/.github/workflows/bump.yml
+    uses: markgaze/automation/.github/workflows/bump.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
@@ -56,7 +56,7 @@ on:
 
 jobs:
   format:
-    uses: markgaze/automation/.github/workflows/format.yml
+    uses: markgaze/automation/.github/workflows/format.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
@@ -88,7 +88,7 @@ on:
 
 jobs:
   format:
-    uses: markgaze/automation/.github/workflows/format.yml
+    uses: markgaze/automation/.github/workflows/format.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 with:
