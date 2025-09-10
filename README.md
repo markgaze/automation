@@ -2,10 +2,6 @@
 
 Central repository for GitHub Actions.
 
-> [!IMPORTANT]
-> All of these workflows require PNPM _and_ that PNPM manages your Node versions.
-> See [the documentation](https://pnpm.io/cli/env) for more information.
-
 ## Available Workflows
 
 ### Bump Dependencies
@@ -39,6 +35,8 @@ where `GH_TOKEN` is a GitHub token for the user that you want to create the PRs 
 | `title`          | The title of the PR.                    | `Bump dependencies`                          |
 | `body`           | The body of the PR.                     | `Bumping dependencies via GitHub Actions...` |
 | `turbo-cache`    | Whether to use the Turborepo cache.     | `false`                                      |
+| `install-node`   | Whether to install Node.js using actions/setup-node. | `false`                         |
+| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`             |
 
 ### Format Code
 
@@ -71,8 +69,27 @@ where `GH_TOKEN` is a GitHub token for the user that you want to create the form
 | `branch`         | The branch to format the code on.       | `github.head_ref` |
 | `command`        | The script to run to format the code.   | `format`          |
 | `turbo-cache`    | Whether to use the Turborepo cache.     | `false`           |
+| `install-node`   | Whether to install Node.js using actions/setup-node. | `false`       |
+| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`   |
 
 ## Extra Options
+
+### Node.js Installation
+
+By default, these workflows use PNPM to manage Node.js versions. However, you can optionally install Node.js using GitHub Actions' setup-node action instead. This is useful if you don't want to rely on PNPM's environment management.
+
+To enable Node.js installation:
+
+```yaml
+jobs:
+  format:
+    uses: markgaze/automation/.github/workflows/format.yml@main
+    with:
+      install-node: true
+      node-version: "20"  # or "lts/*", "18", etc.
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+```
 
 ### Turbo Cache
 
