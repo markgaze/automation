@@ -67,6 +67,9 @@ jobs:
         run: pnpm self-update
 
       - name: Bump dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm update -rL
 
       - name: Create Pull Request
