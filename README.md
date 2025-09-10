@@ -94,3 +94,24 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
+
+### NPM Token
+
+If you have a private package registry, you can add the `NPM_TOKEN` secret to the workflow. For example:
+
+```yaml
+name: Format code
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  format:
+    uses: markgaze/automation/.github/workflows/format.yml@main
+    with:
+      turbo-cache: true
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+```
