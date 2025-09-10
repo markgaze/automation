@@ -1,0 +1,58 @@
+name: Format
+
+on:
+  workflow_call:
+    inputs:
+      commit-message:
+        type: string
+        default: "[ci] format"
+      branch:
+        type: string
+        default: ${{ github.head_ref }}
+      command:
+        type: string
+        default: "format"
+      turbo-cache:
+        type: boolean
+        default: false
+    secrets:
+      GH_TOKEN:
+        required: true
+
+jobs:
+  format:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Turbo Cache
+        if: ${{ inputs.turbo-cache }}
+        id: turbo-cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.job }}-
+
+      - name: Install dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          pnpm install
+
+      - name: Format code
+        run: pnpm run ${{ inputs.command }}
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: ${{ inputs.commit-message }}
+          branch: ${{ inputs.branch }}
