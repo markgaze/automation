@@ -32,8 +32,8 @@ on:
         description: "Node.js version to install (only used if install-node is true)"
     secrets:
       GH_TOKEN:
-        description: "GitHub token to authenticate to the repository"
-        required: true
+        description: "GitHub token to create the PR, this will need to be set so that any PR checks are run. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
+        required: false
       NPM_TOKEN:
         description: "NPM token to authenticate to a private package registry"
         required: false
@@ -93,7 +93,7 @@ jobs:
           CI: true
         with:
           branch: ${{ inputs.bump-branch }}
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
           commit-message: ${{ inputs.commit-message }}
           title: ${{ inputs.title }}
           body: ${{ inputs.body }}
