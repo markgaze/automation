@@ -93,7 +93,7 @@ jobs:
           CI: true
         with:
           branch: ${{ inputs.bump-branch }}
-          token: ${{ secrets.GITHUB_TOKEN || secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
           commit-message: ${{ inputs.commit-message }}
           title: ${{ inputs.title }}
           body: ${{ inputs.body }}
