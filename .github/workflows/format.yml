@@ -24,9 +24,6 @@ on:
         default: "lts/*"
         description: "Node.js version to install (only used if install-node is true)"
     secrets:
-      GH_TOKEN:
-        description: "GitHub token to authenticate to the repository"
-        required: true
       NPM_TOKEN:
         description: "NPM token to authenticate to a private package registry"
         required: false

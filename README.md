@@ -28,15 +28,15 @@ where `GH_TOKEN` is a GitHub token for the user that you want to create the PRs 
 
 #### Inputs
 
-| Input            | Description                             | Default                                      |
-| ---------------- | --------------------------------------- | -------------------------------------------- |
-| `bump-branch`    | The branch to commit the changes to.    | `bump`                                       |
-| `commit-message` | The commit message to use for the bump. | `Bump dependencies`                          |
-| `title`          | The title of the PR.                    | `Bump dependencies`                          |
-| `body`           | The body of the PR.                     | `Bumping dependencies via GitHub Actions...` |
-| `turbo-cache`    | Whether to use the Turborepo cache.     | `false`                                      |
-| `install-node`   | Whether to install Node.js using actions/setup-node. | `false`                         |
-| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`             |
+| Input            | Description                                                     | Default                                      |
+| ---------------- | --------------------------------------------------------------- | -------------------------------------------- |
+| `bump-branch`    | The branch to commit the changes to.                            | `bump`                                       |
+| `commit-message` | The commit message to use for the bump.                         | `Bump dependencies`                          |
+| `title`          | The title of the PR.                                            | `Bump dependencies`                          |
+| `body`           | The body of the PR.                                             | `Bumping dependencies via GitHub Actions...` |
+| `turbo-cache`    | Whether to use the Turborepo cache.                             | `false`                                      |
+| `install-node`   | Whether to install Node.js using actions/setup-node.            | `false`                                      |
+| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`                                      |
 
 ### Format Code
 
@@ -55,22 +55,18 @@ on:
 jobs:
   format:
     uses: markgaze/automation/.github/workflows/format.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
-
-where `GH_TOKEN` is a GitHub token for the user that you want to create the format commit as.
 
 #### Inputs
 
-| Input            | Description                             | Default           |
-| ---------------- | --------------------------------------- | ----------------- |
-| `commit-message` | The commit message to use for the bump. | `[ci] format`     |
-| `branch`         | The branch to format the code on.       | `github.head_ref` |
-| `command`        | The script to run to format the code.   | `format`          |
-| `turbo-cache`    | Whether to use the Turborepo cache.     | `false`           |
-| `install-node`   | Whether to install Node.js using actions/setup-node. | `false`       |
-| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`   |
+| Input            | Description                                                     | Default           |
+| ---------------- | --------------------------------------------------------------- | ----------------- |
+| `commit-message` | The commit message to use for the bump.                         | `[ci] format`     |
+| `branch`         | The branch to format the code on.                               | `github.head_ref` |
+| `command`        | The script to run to format the code.                           | `format`          |
+| `turbo-cache`    | Whether to use the Turborepo cache.                             | `false`           |
+| `install-node`   | Whether to install Node.js using actions/setup-node.            | `false`           |
+| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`           |
 
 ## Extra Options
 
@@ -86,9 +82,7 @@ jobs:
     uses: markgaze/automation/.github/workflows/format.yml@main
     with:
       install-node: true
-      node-version: "20"  # or "lts/*", "18", etc.
-    secrets:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      node-version: "20" # or "lts/*", "18", etc.
 ```
 
 ### Turbo Cache
@@ -108,8 +102,6 @@ jobs:
     uses: markgaze/automation/.github/workflows/format.yml@main
     with:
       turbo-cache: true
-    secrets:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
 
 ### NPM Token
