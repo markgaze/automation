@@ -84,7 +84,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm update -rL
+        run: |
+          echo "This has been temporarily disabled due to the ongoing security issue with NPM"
 
       - name: Create Pull Request
         id: pr
