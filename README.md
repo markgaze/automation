@@ -28,15 +28,14 @@ where `GH_TOKEN` is a GitHub token for the user that you want to create the PRs 
 
 #### Inputs
 
-| Input                         | Description                                                     | Default                                      |
-| ----------------------------- | --------------------------------------------------------------- | -------------------------------------------- |
-| `bump-branch`                 | The branch to commit the changes to.                            | `bump`                                       |
-| `commit-message`              | The commit message to use for the bump.                         | `Bump dependencies`                          |
-| `title`                       | The title of the PR.                                            | `Bump dependencies`                          |
-| `body`                        | The body of the PR.                                             | `Bumping dependencies via GitHub Actions...` |
-| `install-node`                | Whether to install Node.js using actions/setup-node.            | `false`                                      |
-| `node-version`                | Node.js version to install (only used if install-node is true). | `lts/*`                                      |
-| `require-minimum-release-age` | Require `pnpm-workspace.yaml` to contain `minimumReleaseAge`.   | `true`                                       |
+| Input                         | Description                                                   | Default                                      |
+| ----------------------------- | ------------------------------------------------------------- | -------------------------------------------- |
+| `bump-branch`                 | The branch to commit the changes to.                          | `bump`                                       |
+| `commit-message`              | The commit message to use for the bump.                       | `Bump dependencies`                          |
+| `title`                       | The title of the PR.                                          | `Bump dependencies`                          |
+| `body`                        | The body of the PR.                                           | `Bumping dependencies via GitHub Actions...` |
+| `node-version-file`           | Node.js version file to determine the version to install.     | `""`                                         |
+| `require-minimum-release-age` | Require `pnpm-workspace.yaml` to contain `minimumReleaseAge`. | `true`                                       |
 
 If your repository does not use `minimumReleaseAge` in `pnpm-workspace.yaml`, you can disable the check by setting `require-minimum-release-age: false`:
 
@@ -71,14 +70,13 @@ jobs:
 
 #### Inputs
 
-| Input            | Description                                                     | Default           |
-| ---------------- | --------------------------------------------------------------- | ----------------- |
-| `commit-message` | The commit message to use for the bump.                         | `[ci] format`     |
-| `branch`         | The branch to format the code on.                               | `github.head_ref` |
-| `command`        | The script to run to format the code.                           | `format`          |
-| `turbo-cache`    | Whether to use the Turborepo cache.                             | `false`           |
-| `install-node`   | Whether to install Node.js using actions/setup-node.            | `false`           |
-| `node-version`   | Node.js version to install (only used if install-node is true). | `lts/*`           |
+| Input               | Description                                               | Default           |
+| ------------------- | --------------------------------------------------------- | ----------------- |
+| `commit-message`    | The commit message to use for the bump.                   | `[ci] format`     |
+| `branch`            | The branch to format the code on.                         | `github.head_ref` |
+| `command`           | The script to run to format the code.                     | `format`          |
+| `turbo-cache`       | Whether to use the Turborepo cache.                       | `false`           |
+| `node-version-file` | Node.js version file to determine the version to install. | `""`              |
 
 ## Extra Options
 

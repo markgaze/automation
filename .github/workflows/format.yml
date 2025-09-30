@@ -15,14 +15,10 @@ on:
       turbo-cache:
         type: boolean
         default: false
-      install-node:
-        type: boolean
-        default: false
-        description: "Whether to install Node.js using actions/setup-node"
-      node-version:
+      node-version-file:
         type: string
-        default: "lts/*"
-        description: "Node.js version to install (only used if install-node is true)"
+        default: ""
+        description: "Node.js version file to determine the version to install"
     secrets:
       NPM_TOKEN:
         description: "NPM token to authenticate to a private package registry"
@@ -41,10 +37,9 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
-        if: ${{ inputs.install-node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version-file: ${{ inputs.node-version-file }}
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v4

@@ -19,14 +19,10 @@ on:
           If this does not build, then get the `bump` branch locally and fix the issues and then push back to GitHub.
 
           You can then merge the PR when it builds successfully.
-      install-node:
-        type: boolean
-        default: false
-        description: "Whether to install Node.js using actions/setup-node"
-      node-version:
+      node-version-file:
         type: string
-        default: "lts/*"
-        description: "Node.js version to install (only used if install-node is true)"
+        default: ""
+        description: "Node.js version file to determine the version to install"
       require-minimum-release-age:
         type: boolean
         default: true
@@ -67,10 +63,9 @@ jobs:
           fi
 
       - name: Setup Node.js
-        if: ${{ inputs.install-node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version-file: ${{ inputs.node-version-file }}
 
       - uses: pnpm/action-setup@v4
 
