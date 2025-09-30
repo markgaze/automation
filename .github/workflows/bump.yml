@@ -19,9 +19,6 @@ on:
           If this does not build, then get the `bump` branch locally and fix the issues and then push back to GitHub.
 
           You can then merge the PR when it builds successfully.
-      turbo-cache:
-        type: boolean
-        default: false
       install-node:
         type: boolean
         default: false
@@ -76,16 +73,6 @@ jobs:
           node-version: ${{ inputs.node-version }}
 
       - uses: pnpm/action-setup@v4
-
-      - name: Turbo Cache
-        if: ${{ inputs.turbo-cache }}
-        id: turbo-cache
-        uses: actions/cache@v4
-        with:
-          path: .turbo
-          key: turbo-${{ github.job }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.job }}-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
