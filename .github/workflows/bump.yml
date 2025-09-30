@@ -30,6 +30,10 @@ on:
         type: string
         default: "lts/*"
         description: "Node.js version to install (only used if install-node is true)"
+      require-minimum-release-age:
+        type: boolean
+        default: true
+        description: "Require pnpm-workspace.yaml to contain minimumReleaseAge before proceeding"
     secrets:
       GH_TOKEN:
         description: "GitHub token to create the PR, this will need to be set so that any PR checks are run. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
@@ -52,6 +56,18 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
+      - name: Ensure pnpm-workspace.yaml has minimumReleaseAge
+        if: ${{ inputs.require-minimum-release-age }}
+        run: |
+          if [ ! -f pnpm-workspace.yaml ]; then
+            echo "pnpm-workspace.yaml not found. Stopping execution."
+            exit 1
+          fi
+          if ! grep -qE '^\s*minimumReleaseAge\s*:' pnpm-workspace.yaml; then
+            echo "minimumReleaseAge not found in pnpm-workspace.yaml, stopping execution. It is strongly recommended to use minimumReleaseAge in pnpm-workspace.yaml to ensure that the updated dependencies are less likely to contain compromised versions."
+            exit 1
+          fi
 
       - name: Setup Node.js
         if: ${{ inputs.install-node }}
@@ -85,7 +101,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "This has been temporarily disabled due to the ongoing security issue with NPM"
+          pnpm update -rL
 
       - name: Create Pull Request
         id: pr
