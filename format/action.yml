@@ -45,8 +45,8 @@ runs:
 
     - name: Install dependencies
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ inputs.NPM_TOKEN }}
+        NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
       run: pnpm install --frozen-lockfile
       shell: bash
 
