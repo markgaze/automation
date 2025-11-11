@@ -50,50 +50,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Ensure pnpm-workspace.yaml has minimumReleaseAge
-        if: ${{ inputs.require-minimum-release-age }}
-        run: |
-          if [ ! -f pnpm-workspace.yaml ]; then
-            echo "pnpm-workspace.yaml not found. Stopping execution."
-            exit 1
-          fi
-          if ! grep -qE '^\s*minimumReleaseAge\s*:' pnpm-workspace.yaml; then
-            echo "minimumReleaseAge not found in pnpm-workspace.yaml, stopping execution. It is strongly recommended to use minimumReleaseAge in pnpm-workspace.yaml to ensure that the updated dependencies are less likely to contain compromised versions."
-            exit 1
-          fi
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version-file: ${{ inputs.node-version-file }}
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Update pnpm
-        run: pnpm self-update
-
       - name: Bump dependencies
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          pnpm update -rL
-
-      - name: Create Pull Request
-        id: pr
-        uses: peter-evans/create-pull-request@v7
-        env:
-          CI: true
+        uses: ../../bump
         with:
-          branch: ${{ inputs.bump-branch }}
-          token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          bump-branch: ${{ inputs.bump-branch }}
           commit-message: ${{ inputs.commit-message }}
           title: ${{ inputs.title }}
           body: ${{ inputs.body }}
+          node-version-file: ${{ inputs.node-version-file }}
+          require-minimum-release-age: ${{ inputs.require-minimum-release-age }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

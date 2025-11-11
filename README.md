@@ -80,19 +80,18 @@ jobs:
 
 ## Extra Options
 
-### Node.js Installation
+### Node.js Version
 
-By default, these workflows use PNPM to manage Node.js versions. However, you can optionally install Node.js using GitHub Actions' setup-node action instead. This is useful if you don't want to rely on PNPM's environment management.
+Node.js is installed by default. The version is determined by the `node-version-file` input, which should point to a file like `.nvmrc` or `.node-version` in your repository.
 
-To enable Node.js installation:
+Example:
 
 ```yaml
 jobs:
   format:
     uses: markgaze/automation/.github/workflows/format.yml@main
     with:
-      install-node: true
-      node-version: "20" # or "lts/*", "18", etc.
+      node-version-file: ".nvmrc"
 ```
 
 ### Turbo Cache

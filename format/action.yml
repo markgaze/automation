@@ -1,0 +1,61 @@
+name: Format code
+description: "Format code using the specified command"
+
+inputs:
+  commit-message:
+    description: "Commit message for the formatting changes"
+    default: "Format all files correctly"
+  branch:
+    description: "Branch name for the formatting changes"
+    default: ${{ github.head_ref }}
+  command:
+    description: "Command to run for formatting"
+    default: "format"
+  turbo-cache:
+    description: "Whether to use Turbo cache"
+    default: "false"
+  node-version-file:
+    description: "Node.js version file to determine the version to install"
+    default: ""
+  NPM_TOKEN:
+    description: "NPM token to authenticate to a private package registry"
+    required: false
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v5
+      with:
+        node-version-file: ${{ inputs.node-version-file }}
+
+    - name: Turbo Cache
+      if: ${{ inputs.turbo-cache }}
+      id: turbo-cache
+      uses: actions/cache@v4
+      with:
+        path: .turbo
+        key: turbo-${{ github.job }}-${{ github.sha }}
+        restore-keys: |
+          turbo-${{ github.job }}-
+
+    - name: Install dependencies
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: pnpm install --frozen-lockfile
+      shell: bash
+
+    - name: Format code
+      run: pnpm run ${{ inputs.command }}
+      shell: bash
+
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v6
+      with:
+        commit_message: ${{ inputs.commit-message }}
+        branch: ${{ inputs.branch }}

@@ -36,36 +36,12 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version-file: ${{ inputs.node-version-file }}
-
-      - name: Turbo Cache
-        if: ${{ inputs.turbo-cache }}
-        id: turbo-cache
-        uses: actions/cache@v4
-        with:
-          path: .turbo
-          key: turbo-${{ github.job }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.job }}-
-
-      - name: Install dependencies
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          pnpm install --frozen-lockfile
-
       - name: Format code
-        run: pnpm run ${{ inputs.command }}
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: ../../format
         with:
-          commit_message: ${{ inputs.commit-message }}
+          commit-message: ${{ inputs.commit-message }}
           branch: ${{ inputs.branch }}
+          command: ${{ inputs.command }}
+          turbo-cache: ${{ inputs.turbo-cache }}
+          node-version-file: ${{ inputs.node-version-file }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

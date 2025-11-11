@@ -1,0 +1,88 @@
+name: Bump dependencies
+description: "An action to bump dependencies using pnpm and create a pull request."
+
+inputs:
+  bump-branch:
+    description: "Branch name for the bump"
+    default: bump
+  commit-message:
+    description: "Commit message for the bump"
+    default: "Bump dependencies"
+  title:
+    description: "Title for the pull request"
+    default: "Bump dependencies"
+  body:
+    description: "Body content for the pull request"
+    default: |
+      Bumping dependencies via GitHub Actions.
+
+      If this does not build, then get the `bump` branch locally and fix the issues and then push back to GitHub.
+
+      You can then merge the PR when it builds successfully.
+  node-version-file:
+    default: ""
+    description: "Node.js version file to determine the version to install"
+  require-minimum-release-age:
+    default: "true"
+    description: "Require pnpm-workspace.yaml to contain minimumReleaseAge before proceeding"
+  GH_TOKEN:
+    description: "GitHub token to create the PR, this will need to be set so that any PR checks are run. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
+    required: false
+  NPM_TOKEN:
+    description: "NPM token to authenticate to a private package registry"
+    required: false
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Ensure pnpm-workspace.yaml has minimumReleaseAge
+      if: ${{ inputs.require-minimum-release-age == 'true' }}
+      run: |
+        if [ ! -f pnpm-workspace.yaml ]; then
+          echo "pnpm-workspace.yaml not found. Stopping execution."
+          exit 1
+        fi
+        if ! grep -qE '^\s*minimumReleaseAge\s*:' pnpm-workspace.yaml; then
+          echo "minimumReleaseAge not found in pnpm-workspace.yaml, stopping execution. It is strongly recommended to use minimumReleaseAge in pnpm-workspace.yaml to ensure that the updated dependencies are less likely to contain compromised versions."
+          exit 1
+        fi
+      shell: bash
+
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v5
+      with:
+        node-version-file: ${{ inputs.node-version-file }}
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      shell: bash
+
+    - name: Update pnpm
+      run: pnpm self-update
+      shell: bash
+
+    - name: Bump dependencies
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: pnpm update -rL
+      shell: bash
+
+    - name: Create Pull Request
+      id: pr
+      uses: peter-evans/create-pull-request@v7
+      env:
+        CI: true
+      with:
+        branch: ${{ inputs.bump-branch }}
+        token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+        commit-message: ${{ inputs.commit-message }}
+        title: ${{ inputs.title }}
+        body: ${{ inputs.body }}
