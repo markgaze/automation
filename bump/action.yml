@@ -72,7 +72,9 @@ runs:
       env:
         NODE_AUTH_TOKEN: ${{ inputs.NPM_TOKEN }}
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
-      run: pnpm update -rL
+      run: |
+        pnpm update -rL
+        pnpm install
       shell: bash
 
     - name: Create Pull Request
