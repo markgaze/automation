@@ -74,7 +74,7 @@ runs:
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
       run: |
         pnpm update -rL
-        pnpm install
+        pnpm install --no-frozen-lockfile
       shell: bash
 
     - name: Create Pull Request
