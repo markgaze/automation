@@ -26,17 +26,17 @@ runs:
 
   steps:
     - name: Setup PNPM
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@5b4374b04084dc1f9032b52464284b769ac5059e # v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
       with:
         node-version-file: ${{ inputs.node-version-file }}
 
     - name: Turbo Cache
       if: ${{ inputs.turbo-cache }}
       id: turbo-cache
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: .turbo
         key: turbo-${{ github.job }}-${{ github.sha }}
@@ -55,7 +55,7 @@ runs:
       shell: bash
 
     - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v6
+      uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
       with:
         commit_message: ${{ inputs.commit-message }}
         branch: ${{ inputs.branch }}
