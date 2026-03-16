@@ -46,12 +46,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
 
       - name: Bump dependencies
-        uses: markgaze/automation/bump@main
+        uses: markgaze/automation/bump@35bb40616fca92c28a302c82509b982b20285b62 # main
         with:
           bump-branch: ${{ inputs.bump-branch }}
           commit-message: ${{ inputs.commit-message }}
