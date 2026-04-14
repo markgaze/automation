@@ -75,10 +75,13 @@ jobs:
 | Input               | Description                                               | Default           |
 | ------------------- | --------------------------------------------------------- | ----------------- |
 | `commit-message`    | The commit message to use for the bump.                   | `[ci] format`     |
-| `branch`            | The branch to format the code on.                         | `github.head_ref` |
+| `branch`            | The branch to format the code on (or PR source branch when `create-pr` is true). | `github.head_ref` |
 | `command`           | The script to run to format the code.                     | `format`          |
 | `turbo-cache`       | Whether to use the Turborepo cache.                       | `false`           |
 | `node-version-file` | Node.js version file to determine the version to install. | `""`              |
+| `create-pr`         | Whether to create a pull request instead of pushing directly to the branch. | `false` |
+| `title`             | The title of the PR (only used when `create-pr` is `true`). | `Format all files correctly` |
+| `body`              | The body of the PR (only used when `create-pr` is `true`). | `Formatting all files via GitHub Actions.` |
 
 ## Extra Options
 
@@ -214,10 +217,14 @@ jobs:
 | Input               | Description                                               | Default                  | Required |
 | ------------------- | --------------------------------------------------------- | ------------------------ | -------- |
 | `commit-message`    | The commit message to use for the formatting changes.     | `Format all files correctly` | No       |
-| `branch`            | The branch to format the code on.                         | `${{ github.head_ref }}` | No       |
+| `branch`            | The branch to format the code on (or PR source branch when `create-pr` is true). | `${{ github.head_ref }}` | No       |
 | `command`           | The script to run to format the code.                     | `format`                 | No       |
 | `turbo-cache`       | Whether to use the Turborepo cache.                       | `false`                  | No       |
 | `node-version-file` | Node.js version file to determine the version to install. | `""`                     | No       |
+| `create-pr`         | Whether to create a pull request instead of pushing directly to the branch. | `false` | No |
+| `title`             | The title of the PR (only used when `create-pr` is `true`). | `Format all files correctly` | No |
+| `body`              | The body of the PR (only used when `create-pr` is `true`). | `Formatting all files via GitHub Actions.` | No |
+| `GH_TOKEN`          | GitHub token to create the PR (only used when `create-pr` is `true`). | `${{ github.token }}` | No |
 | `NPM_TOKEN`         | NPM token to authenticate to a private package registry.  | `""`                     | No       |
 
 ### When to Use Composite Actions vs Workflows

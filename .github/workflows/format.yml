@@ -19,7 +19,22 @@ on:
         type: string
         default: ""
         description: "Node.js version file to determine the version to install"
+      create-pr:
+        type: boolean
+        default: false
+        description: "Whether to create a pull request instead of pushing directly to the branch"
+      title:
+        type: string
+        default: "Format all files correctly"
+        description: "Title for the pull request (only used when create-pr is true)"
+      body:
+        type: string
+        default: "Formatting all files via GitHub Actions."
+        description: "Body content for the pull request (only used when create-pr is true)"
     secrets:
+      GH_TOKEN:
+        description: "GitHub token to create the PR. Only used when create-pr is true. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
+        required: false
       NPM_TOKEN:
         description: "NPM token to authenticate to a private package registry"
         required: false
@@ -44,4 +59,8 @@ jobs:
           command: ${{ inputs.command }}
           turbo-cache: ${{ inputs.turbo-cache }}
           node-version-file: ${{ inputs.node-version-file }}
+          create-pr: ${{ inputs.create-pr }}
+          title: ${{ inputs.title }}
+          body: ${{ inputs.body }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
