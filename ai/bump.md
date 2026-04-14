@@ -307,7 +307,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number,
-              assignees: ["copilot"]
+              assignees: ["copilot-swe-agent[bot]"]
             });
 ```
 
