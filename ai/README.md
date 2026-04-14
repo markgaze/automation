@@ -11,3 +11,11 @@ Copy this prompt to Copilot CLI (or similar):
 ```text
 Configure this repo with https://github.com/markgaze/automation/blob/main/ai/bump.md
 ```
+
+If you already have a token that can assign issues in the repository, use this prompt instead:
+
+```text
+Configure this repo with https://github.com/markgaze/automation/blob/main/ai/bump.md, using `TOKEN_NAME_HERE` in place of `COPILOT_ASSIGN_TOKEN`
+```
+
+where `TOKEN_NAME_HERE` is the name of the secret that contains the token.
