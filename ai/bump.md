@@ -266,7 +266,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: "open",
-              creator: "github-actions[bot]",
+              labels: "automated",
               per_page: 100
             });
 
