@@ -6,7 +6,7 @@ inputs:
     description: "Commit message for the formatting changes"
     default: "Format all files correctly"
   branch:
-    description: "Branch name for the formatting changes"
+    description: "Branch name for the formatting changes. When create-pr is true, this is the branch the PR will be created from."
     default: ${{ github.head_ref }}
   command:
     description: "Command to run for formatting"
@@ -17,6 +17,18 @@ inputs:
   node-version-file:
     description: "Node.js version file to determine the version to install"
     default: ""
+  create-pr:
+    description: "Whether to create a pull request instead of pushing directly to the branch"
+    default: "false"
+  title:
+    description: "Title for the pull request (only used when create-pr is true)"
+    default: "Format all files correctly"
+  body:
+    description: "Body content for the pull request (only used when create-pr is true)"
+    default: "Formatting all files via GitHub Actions."
+  GH_TOKEN:
+    description: "GitHub token to create the PR. Only used when create-pr is true. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
+    required: false
   NPM_TOKEN:
     description: "NPM token to authenticate to a private package registry"
     required: false
@@ -55,7 +67,20 @@ runs:
       shell: bash
 
     - name: Commit changes
+      if: ${{ inputs.create-pr != 'true' }}
       uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
       with:
         commit_message: ${{ inputs.commit-message }}
         branch: ${{ inputs.branch }}
+
+    - name: Create Pull Request
+      if: ${{ inputs.create-pr == 'true' }}
+      uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+      env:
+        CI: true
+      with:
+        branch: ${{ inputs.branch }}
+        token: ${{ inputs.GH_TOKEN || github.token }}
+        commit-message: ${{ inputs.commit-message }}
+        title: ${{ inputs.title }}
+        body: ${{ inputs.body }}
