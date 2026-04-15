@@ -111,6 +111,7 @@ Requirements:
 - mention the minimum release age value used (repo config if present, otherwise 5 days)
 - use the correct dependency upgrade command for that package manager
 - tell the agent to ensure minimum release age is configured for the detected package manager before upgrading
+- tell the agent to never remove, reduce, disable, bypass, or relax minimum release age settings to make upgrades or validation pass
 - include the exact config file/key used for this repo
 - tell the agent to run only scripts that actually exist in this repo
 - prefer root/orchestrated commands if this is a monorepo
@@ -146,6 +147,11 @@ Before running upgrades, ensure minimum release age is configured for this
 package manager using the repo's existing value when present, otherwise default
 to 5 days.
 
+Never remove, reduce, disable, bypass, or relax the minimum release age setting
+to make dependency upgrades, installs, or validation checks pass. Keep the
+existing value (or the default 5-day value when no existing config is present)
+throughout this task.
+
 Include the concrete config you used (file + key/value), for example:
 
 - pnpm: `pnpm-workspace.yaml` -> `minimumReleaseAge: 7200`
@@ -180,6 +186,7 @@ If dependency upgrades cause failures:
 - apply minimal fixes only
 - do not refactor unrelated code
 - do not downgrade dependencies unless necessary
+- do not remove, reduce, disable, bypass, or relax minimum release age settings to resolve failures
 
 ## Commit
 
