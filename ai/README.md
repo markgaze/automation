@@ -22,6 +22,29 @@ Configure this repo with https://github.com/markgaze/automation/blob/main/ai/bum
 
 where `TOKEN_NAME_HERE` is the name of the secret that contains the token.
 
+### Token requirements
+
+The generated workflow uses this secret by default:
+
+- `COPILOT_ASSIGN_TOKEN`
+
+You can keep that name, or replace it with your own secret name using the
+alternate prompt above.
+
+What the token must be able to do:
+
+- create issues
+- list open issues (for duplicate-issue protection)
+- assign `copilot-swe-agent[bot]` to issues
+
+Recommended permissions:
+
+- fine-grained PAT: repository `Issues` set to `Read and write`
+- classic PAT: `repo` scope
+
+The token owner must also have access to the repository and permission to assign
+issues.
+
 ## Update an existing dependency-update setup
 
 If a repository already has the generated files, use this prompt to update the
