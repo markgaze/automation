@@ -10,7 +10,7 @@ Set up this repository so that:
    - validate the project
    - fix straightforward breakages
    - open a pull request
-3. The issue is assigned to `copilot`
+3. The issue is assigned to `copilot-swe-agent[bot]`
 4. Only one open dependency-update issue exists at a time
 5. The issue content is tailored to this repository
 
@@ -103,7 +103,7 @@ Use this structure, filling in repo-specific details:
 ---
 name: 🔄 Dependency Update (AI Task)
 about: Upgrade dependencies and validate the project
-title: "chore: upgrade dependencies to latest"
+title: "Upgrade dependencies to latest"
 labels: ["dependencies", "automated"]
 ---
 
@@ -153,10 +153,6 @@ If dependency upgrades cause failures:
 
 Use a commit message consistent with the existing history.
 
-Example:
-
-`chore(deps): upgrade dependencies to latest`
-
 ## PR
 
 Create a PR using the same style as the commit history.
@@ -195,7 +191,7 @@ The workflow must:
 - check whether an open issue with the same title already exists
 - if no matching open issue exists:
   - create the issue
-  - assign it to `copilot`
+  - assign it to `copilot-swe-agent[bot]`
 - if a matching open issue already exists:
   - do nothing
 
@@ -247,7 +243,7 @@ jobs:
 
           {
             echo "title<<EOF"
-            echo "${title:-chore: upgrade dependencies to latest}"
+            echo "${title:-Upgrade dependencies to latest}"
             echo "EOF"
             echo "body<<EOF"
             echo "$body"
@@ -343,4 +339,4 @@ Make the changes directly in the repository so that:
 - `.github/workflows/dependency-update-issue.yml` exists
 - the template is customized to the repo
 - the workflow creates at most one open dependency-update issue at a time
-- new issues are assigned to `copilot`
+- new issues are assigned to `copilot-swe-agent[bot]`
