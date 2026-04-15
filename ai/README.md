@@ -6,6 +6,8 @@ This directory contains instruction files for LLM agents.
 
 This instruction file is for setting up automated dependency-update issues and workflow for a Copilot Agent, it will not work with any other agent without modification.
 
+It also instructs Copilot to detect and apply a minimum dependency release-age setting from repo config (default: 5 days) before upgrades, using package-manager-native configuration to protect against supply chain attacks.
+
 Copy this prompt to Copilot CLI (or similar):
 
 ```text
@@ -33,5 +35,6 @@ Steps:
 2. Compare the current setup with the latest requirements in the source instructions.
 3. Update both files to match the latest behaviour and requirements.
 4. Preserve this repository's intentional local customizations (for example, secret names or repo-specific commands).
-5. Keep the instructions concise and practical.
+5. Preserve or add the minimum release-age configuration behaviour (repo value if present, otherwise 5 days).
+6. Keep the instructions concise and practical.
 ```

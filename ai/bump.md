@@ -73,6 +73,24 @@ Detect which of these scripts actually exist:
 
 If the repo has an existing root command that already orchestrates validation across packages, prefer that instead of inventing per-package commands.
 
+### Minimum release age config
+
+Before configuring the dependency-update job, look for an existing repository config
+that sets a minimum release age (or equivalent stability/cooldown gate) for
+dependencies.
+
+If one exists, reuse that value.
+
+If none exists, configure the detected package manager with a default minimum
+release age of 5 days.
+
+Use the package manager's native config:
+
+- `pnpm`: set `minimumReleaseAge: 7200` (minutes) in `pnpm-workspace.yaml`.
+- `bun`: set `minimumReleaseAge = 432000` (seconds) under `[install]` in `bunfig.toml`.
+- `yarn`: set `npmMinimalAgeGate: "5d"` in `.yarnrc.yml`.
+- `npm`: set `min-release-age=5` (days) in `.npmrc`.
+
 ### Commit style
 
 Inspect recent commit history and match the existing commit style.
@@ -90,7 +108,10 @@ Make the content concise and tailored to this repository.
 Requirements:
 
 - mention the detected package manager
+- mention the minimum release age value used (repo config if present, otherwise 5 days)
 - use the correct dependency upgrade command for that package manager
+- tell the agent to ensure minimum release age is configured for the detected package manager before upgrading
+- include the exact config file/key used for this repo
 - tell the agent to run only scripts that actually exist in this repo
 - prefer root/orchestrated commands if this is a monorepo
 - tell the agent to use a commit message style consistent with the repo history
@@ -120,6 +141,17 @@ This repo uses: `<DETECTED_PACKAGE_MANAGER>`
 Use:
 
 `<UPGRADE_COMMAND>`
+
+Before running upgrades, ensure minimum release age is configured for this
+package manager using the repo's existing value when present, otherwise default
+to 5 days.
+
+Include the concrete config you used (file + key/value), for example:
+
+- pnpm: `pnpm-workspace.yaml` -> `minimumReleaseAge: 7200`
+- bun: `bunfig.toml` -> `[install] minimumReleaseAge = 432000`
+- yarn: `.yarnrc.yml` -> `npmMinimalAgeGate: "5d"`
+- npm: `.npmrc` -> `min-release-age=5`
 
 ## Install
 
