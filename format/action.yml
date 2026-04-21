@@ -66,15 +66,25 @@ runs:
       run: pnpm run ${{ inputs.command }}
       shell: bash
 
+    - name: Check for changes
+      id: changes
+      run: |
+        if git diff --quiet; then
+          echo "detected=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "detected=true" >> "$GITHUB_OUTPUT"
+        fi
+      shell: bash
+
     - name: Commit changes
-      if: ${{ inputs.create-pr != 'true' }}
+      if: ${{ inputs.create-pr != 'true' && steps.changes.outputs.detected == 'true' }}
       uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
       with:
         commit_message: ${{ inputs.commit-message }}
         branch: ${{ inputs.branch }}
 
     - name: Create Pull Request
-      if: ${{ inputs.create-pr == 'true' }}
+      if: ${{ inputs.create-pr == 'true' && steps.changes.outputs.detected == 'true' }}
       uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
       env:
         CI: true
