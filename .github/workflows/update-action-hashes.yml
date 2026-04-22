@@ -1,0 +1,44 @@
+name: Update action hashes
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - bump/action.yml
+      - format/action.yml
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-hashes:
+    name: Update action hashes
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 2
+
+      - name: Update bump.yml hash
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -q '^bump/action\.yml$'; then
+            sed -i 's|markgaze/automation/bump@[a-f0-9]*|markgaze/automation/bump@${{ github.sha }}|g' .github/workflows/bump.yml
+          fi
+
+      - name: Update format.yml hash
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -q '^format/action\.yml$'; then
+            sed -i 's|markgaze/automation/format@[a-f0-9]*|markgaze/automation/format@${{ github.sha }}|g' .github/workflows/format.yml
+          fi
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+        with:
+          branch: update-action-hashes
+          commit-message: "Update action hashes to ${{ github.sha }}"
+          title: "Update action hashes"
+          body: |
+            Update action hash references in `.github/workflows` to the latest commit SHA (`${{ github.sha }}`).
