@@ -3,7 +3,7 @@ description: "Format code using the specified command"
 
 inputs:
   commit-message:
-    description: "Commit message for the formatting changes"
+    description: "Commit message for the formatting changes."
     default: "Format all files correctly"
   branch:
     description: "Branch name for the formatting changes. When create-pr is true, this is the branch the PR will be created from."
