@@ -7,11 +7,6 @@ on:
     paths:
       - bump/action.yml
       - format/action.yml
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  pull-requests: write
 
 jobs:
   update-hashes:
@@ -35,10 +30,17 @@ jobs:
             sed -i 's|markgaze/automation/format@[a-f0-9]\+|markgaze/automation/format@${{ github.sha }}|g' .github/workflows/format.yml
           fi
 
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APPID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
         with:
           branch: update-action-hashes
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: "Update action hashes to ${{ github.sha }}"
           title: "Update action hashes"
           body: |
