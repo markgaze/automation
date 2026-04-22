@@ -9,7 +9,7 @@ inputs:
     description: "Branch name for the formatting changes. When create-pr is true, this is the branch the PR will be created from."
     default: ${{ github.head_ref }}
   command:
-    description: "Command to run for formatting"
+    description: "Command to run for formatting."
     default: "format"
   turbo-cache:
     description: "Whether to use Turbo cache"
