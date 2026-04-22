@@ -7,6 +7,7 @@ on:
     paths:
       - bump/action.yml
       - format/action.yml
+  workflow_dispatch:
 
 permissions:
   contents: write
