@@ -30,7 +30,7 @@ jobs:
             sed -i 's|markgaze/automation/format@[a-f0-9]\+|markgaze/automation/format@${{ github.sha }}|g' .github/workflows/format.yml
           fi
 
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APPID }}
