@@ -27,6 +27,10 @@ on:
         type: boolean
         default: true
         description: "Require pnpm-workspace.yaml to contain minimumReleaseAge before proceeding"
+      self-update-pnpm:
+        type: boolean
+        default: true
+        description: "Whether to run pnpm self-update before bumping dependencies"
     secrets:
       GH_TOKEN:
         description: "GitHub token to create the PR, this will need to be set so that any PR checks are run. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
@@ -59,5 +63,6 @@ jobs:
           body: ${{ inputs.body }}
           node-version-file: ${{ inputs.node-version-file }}
           require-minimum-release-age: ${{ inputs.require-minimum-release-age }}
+          self-update-pnpm: ${{ inputs.self-update-pnpm }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
