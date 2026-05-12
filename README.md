@@ -36,7 +36,7 @@ where `GH_TOKEN` is a GitHub token for the user that you want to create the PRs 
 | `commit-message`              | The commit message to use for the bump.                       | `Bump dependencies`                          |
 | `title`                       | The title of the PR.                                          | `Bump dependencies`                          |
 | `body`                        | The body of the PR.                                           | `Bumping dependencies via GitHub Actions...` |
-| `node-version-file`           | Node.js version file to determine the version to install.     | `""`                                         |
+| `node-version-file`           | Node.js version file to determine the version to install.     | `""` (falls back to `24`)                    |
 | `require-minimum-release-age` | Require `pnpm-workspace.yaml` to contain `minimumReleaseAge`. | `true`                                       |
 
 If your repository does not use `minimumReleaseAge` in `pnpm-workspace.yaml`, you can disable the check by setting `require-minimum-release-age: false`:
@@ -78,7 +78,7 @@ jobs:
 | `branch`            | The branch to format the code on (or PR source branch when `create-pr` is true). | `github.head_ref` |
 | `command`           | The script to run to format the code.                     | `format`          |
 | `turbo-cache`       | Whether to use the Turborepo cache.                       | `false`           |
-| `node-version-file` | Node.js version file to determine the version to install. | `""`              |
+| `node-version-file` | Node.js version file to determine the version to install. | `""` (falls back to `24`) |
 | `create-pr`         | Whether to create a pull request instead of pushing directly to the branch. | `false` |
 | `title`             | The title of the PR (only used when `create-pr` is `true`). | `Format all files correctly` |
 | `body`              | The body of the PR (only used when `create-pr` is `true`). | `Formatting all files via GitHub Actions.` |
@@ -87,7 +87,7 @@ jobs:
 
 ### Node.js Version
 
-Node.js is installed by default. The version is determined by the `node-version-file` input, which should point to a file like `.nvmrc` or `.node-version` in your repository.
+Node.js is installed by default. If `node-version-file` is set, that file is used to determine the version (for example `.nvmrc` or `.node-version`). If `node-version-file` is empty, Node.js `24` is used.
 
 Example:
 
@@ -179,7 +179,7 @@ jobs:
 | `commit-message`              | The commit message to use for the bump.                       | `Bump dependencies`                          | No       |
 | `title`                       | The title of the PR.                                          | `Bump dependencies`                          | No       |
 | `body`                        | The body of the PR.                                           | `Bumping dependencies via GitHub Actions...` | No       |
-| `node-version-file`           | Node.js version file to determine the version to install.     | `""`                                         | No       |
+| `node-version-file`           | Node.js version file to determine the version to install.     | `""` (falls back to `24`)                    | No       |
 | `require-minimum-release-age` | Require `pnpm-workspace.yaml` to contain `minimumReleaseAge`. | `true`                                       | No       |
 | `GH_TOKEN`                    | GitHub token to create the PR.                                | `${{ github.token }}`                        | No       |
 | `NPM_TOKEN`                   | NPM token to authenticate to a private package registry.      | `""`                                         | No       |
@@ -220,7 +220,7 @@ jobs:
 | `branch`            | The branch to format the code on (or PR source branch when `create-pr` is true). | `${{ github.head_ref }}` | No       |
 | `command`           | The script to run to format the code.                     | `format`                 | No       |
 | `turbo-cache`       | Whether to use the Turborepo cache.                       | `false`                  | No       |
-| `node-version-file` | Node.js version file to determine the version to install. | `""`                     | No       |
+| `node-version-file` | Node.js version file to determine the version to install. | `""` (falls back to `24`) | No       |
 | `create-pr`         | Whether to create a pull request instead of pushing directly to the branch. | `false` | No |
 | `title`             | The title of the PR (only used when `create-pr` is `true`). | `Format all files correctly` | No |
 | `body`              | The body of the PR (only used when `create-pr` is `true`). | `Formatting all files via GitHub Actions.` | No |

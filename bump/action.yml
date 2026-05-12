@@ -52,10 +52,17 @@ runs:
     - name: Setup PNPM
       uses: pnpm/action-setup@5b4374b04084dc1f9032b52464284b769ac5059e # v4
 
-    - name: Setup Node.js
+    - name: Setup Node.js from version file
+      if: ${{ inputs.node-version-file != '' }}
       uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
       with:
         node-version-file: ${{ inputs.node-version-file }}
+
+    - name: Setup Node.js (default)
+      if: ${{ inputs.node-version-file == '' }}
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+      with:
+        node-version: 24
 
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
