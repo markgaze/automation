@@ -38,6 +38,7 @@ where `GH_TOKEN` is a GitHub token for the user that you want to create the PRs 
 | `body`                        | The body of the PR.                                           | `Bumping dependencies via GitHub Actions...` |
 | `node-version-file`           | Node.js version file to determine the version to install.     | `""` (falls back to `current`)               |
 | `require-minimum-release-age` | Require `pnpm-workspace.yaml` to contain `minimumReleaseAge`. | `true`                                       |
+| `self-update-pnpm`            | Whether to run `pnpm self-update` before bumping dependencies. | `true`                                       |
 
 If your repository does not use `minimumReleaseAge` in `pnpm-workspace.yaml`, you can disable the check by setting `require-minimum-release-age: false`:
 
@@ -50,6 +51,16 @@ jobs:
 ```
 
 It is strongly recommended to use `minimumReleaseAge` in `pnpm-workspace.yaml` to ensure that the updated dependencies are less likely to contain compromised versions.
+
+If you need to avoid `pnpm self-update` (for example to prevent it using an unexpected registry), disable it with:
+
+```yaml
+jobs:
+  deps-bump:
+    uses: markgaze/automation/.github/workflows/bump.yml@main
+    with:
+      self-update-pnpm: false
+```
 
 ### Format Code
 
@@ -167,6 +178,7 @@ jobs:
           body: "Bumping dependencies via GitHub Actions..."
           node-version-file: ".nvmrc"
           require-minimum-release-age: true
+          self-update-pnpm: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
@@ -181,6 +193,7 @@ jobs:
 | `body`                        | The body of the PR.                                           | `Bumping dependencies via GitHub Actions...` | No       |
 | `node-version-file`           | Node.js version file to determine the version to install.     | `""` (falls back to `current`)               | No       |
 | `require-minimum-release-age` | Require `pnpm-workspace.yaml` to contain `minimumReleaseAge`. | `true`                                       | No       |
+| `self-update-pnpm`            | Whether to run `pnpm self-update` before bumping dependencies. | `true`                                      | No       |
 | `GH_TOKEN`                    | GitHub token to create the PR.                                | `${{ github.token }}`                        | No       |
 | `NPM_TOKEN`                   | NPM token to authenticate to a private package registry.      | `""`                                         | No       |
 

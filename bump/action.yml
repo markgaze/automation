@@ -25,6 +25,9 @@ inputs:
   require-minimum-release-age:
     default: "true"
     description: "Require pnpm-workspace.yaml to contain minimumReleaseAge before proceeding"
+  self-update-pnpm:
+    default: "true"
+    description: "Whether to run pnpm self-update before bumping dependencies"
   GH_TOKEN:
     description: "GitHub token to create the PR, this will need to be set so that any PR checks are run. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
     required: false
@@ -72,6 +75,7 @@ runs:
       shell: bash
 
     - name: Update pnpm
+      if: ${{ inputs.self-update-pnpm == 'true' }}
       run: pnpm self-update
       shell: bash
 
