@@ -38,7 +38,7 @@ runs:
 
   steps:
     - name: Setup PNPM
-      uses: pnpm/action-setup@5b4374b04084dc1f9032b52464284b769ac5059e # v4
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6
 
     - name: Setup Node.js from version file
       if: inputs.node-version-file != ''
