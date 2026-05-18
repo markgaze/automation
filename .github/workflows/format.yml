@@ -52,7 +52,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Format code
-        uses: markgaze/automation/format@84e4caab23a197b0372d7350c33a0e58726c561f # main
+        uses: markgaze/automation/format@80b4e5f1682c0095dd517eb2af4aa7ae7710a0e9 # main
         with:
           commit-message: ${{ inputs.commit-message }}
           branch: ${{ inputs.branch }}
