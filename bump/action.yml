@@ -89,7 +89,6 @@ runs:
 
     - name: Ensure overrides are correctly installed
       run: |
-        rm pnpm-lock.yaml
         pnpm install --force
       shell: bash
 
