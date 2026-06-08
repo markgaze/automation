@@ -85,7 +85,13 @@ runs:
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
       run: |
         pnpm update -rL
-        pnpm install --no-frozen-lockfile
+      shell: bash
+
+    - name: Ensure overrides are correctly installed
+      env:
+        CI: false
+      run: |
+        pnpm install
       shell: bash
 
     - name: Create Pull Request
