@@ -55,7 +55,7 @@ jobs:
           fetch-depth: 0
 
       - name: Bump dependencies
-        uses: markgaze/automation/bump@b5d92cf621b93a68a410fb8fe3d748bcfdc4e4a0 # main
+        uses: markgaze/automation/bump@eeb42e6d1e7fb6cf529ce411e858b0f6a94b041d # main
         with:
           bump-branch: ${{ inputs.bump-branch }}
           commit-message: ${{ inputs.commit-message }}
