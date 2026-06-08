@@ -90,7 +90,7 @@ runs:
     - name: Ensure overrides are correctly installed
       run: |
         rm pnpm-lock.yaml
-        pnpm install --no-frozen-lockfile
+        pnpm install
       shell: bash
 
     - name: Create Pull Request
