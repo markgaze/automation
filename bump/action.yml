@@ -88,11 +88,9 @@ runs:
       shell: bash
 
     - name: Ensure overrides are correctly installed
-      env:
-        CI: false
       run: |
         rm pnpm-lock.yaml
-        pnpm install
+        pnpm install --force
       shell: bash
 
     - name: Create Pull Request
