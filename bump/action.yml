@@ -89,7 +89,7 @@ runs:
 
     - name: Ensure overrides are correctly installed
       run: |
-        rm pnpm-lockfile.yaml
+        rm pnpm-lock.yaml
         pnpm install --lockfile-only --no-frozen-lockfile
       shell: bash
 
