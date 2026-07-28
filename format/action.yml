@@ -26,6 +26,10 @@ inputs:
   body:
     description: "Body content for the pull request (only used when create-pr is true)"
     default: "Formatting all files via GitHub Actions."
+  labels:
+    description: "Comma or newline separated list of labels to apply to the pull request (only used when create-pr is true)"
+    default: ""
+    required: false
   GH_TOKEN:
     description: "GitHub token to create the PR. Only used when create-pr is true. If not set, the default GITHUB_TOKEN will be used which will need permissions to write contents and pull-requests."
     required: false
@@ -101,3 +105,4 @@ runs:
         commit-message: ${{ inputs.commit-message }}
         title: ${{ inputs.title }}
         body: ${{ inputs.body }}
+        labels: ${{ inputs.labels }}
